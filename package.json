@@ -6,7 +6,7 @@
   "repository": "git@github.com:engineerinrin/ms2019-ihb-backend.git",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --legacy-watch",
     "build": "webpack",
     "start": "node ./dist/server.js",
     "lint": "tslint './src/**/*.ts'",
