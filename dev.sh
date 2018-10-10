@@ -8,15 +8,13 @@ function usage() {
 
   2.実行できるコマンド一覧
     build
-      Dockerfileからイメージを作成する。
-    run
-      イメージからコンテナを作成する。
+      イメージを作成する。
     start
-      コンテナを起動する。
+      コンテナをバックグラウンドで起動する。
     stop
       コンテナを停止する。
     exec
-      開発環境に入る。
+      バックエンドの開発環境に入る。
       コンテナを起動している状態で利用できる。
       実行中にexitと入力すると開発環境から出る。
   
@@ -40,23 +38,19 @@ EOF
 }
 
 function build() {
-  docker build -t ms2019-backend:local .
-}
-
-function run() {
-  docker run -it -d -v ${PWD}:/app -p 3000:3000 --name ms2019-backend ms2019-backend:local
+  docker-compose build
 }
 
 function start() {
-  docker start ms2019-backend
+  docker-compose up -d
 }
 
 function stop() {
-  docker stop ms2019-backend
+  docker-compose stop
 }
 
 function execute() {
-  docker exec -it ms2019-backend sh
+  docker exec -it ms2019-web sh
 }
 
 if [ $# -eq 0 ];then
@@ -67,9 +61,6 @@ fi
 case "${1}" in
   "build")
     build
-  ;;
-  "run")
-    run
   ;;
   "start")
     start
