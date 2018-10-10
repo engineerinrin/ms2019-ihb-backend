@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  db:
+    image: mongo:latest
+    container_name: "ms2019-db"
+    volumes:
+      - ./docker/db/volumes:/data/db
+    ports:
+      - "37017:27017"
+
+  mongo-express:
+      image: mongo-express:latest
+      container_name: "ms2019-db-gui"
+      links:
+        - "db:mongo"
+      ports:
+        - "8081:8081"
+
+  web:
+    build: "."
+    container_name: "ms2019-web"
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
