@@ -8,17 +8,20 @@ function usage() {
 
   2.実行できるコマンド一覧
     build
-      イメージを作成する。
+      必要なイメージを作成する。
     start
       コンテナをバックグラウンドで起動する。
+      コンテナが未作成の場合は、作成する。
     stop
       コンテナを停止する。
     exec
       バックエンドの開発環境に入る。
       コンテナを起動している状態で利用できる。
       実行中にexitと入力すると開発環境から出る。
+    clean
+      コンテナを全て破棄する。
   
-  3.exec実行中に(開発環境の中で)使える主なコマンド(yarn 〜)
+  3.exec実行中に(開発環境の中で)使用する主なコマンド(yarn 〜)
     yarn dev
       開発を行う時に使用する。
       実行中はソースファイルの変更を自動で検知してリロードする。
@@ -53,6 +56,11 @@ function execute() {
   docker exec -it ms2019-web sh
 }
 
+function clean() {
+  stop
+  docker-compose rm -f
+}
+
 if [ $# -eq 0 ];then
   usage
   exit 0
@@ -70,6 +78,9 @@ case "${1}" in
   ;;
   "exec")
     execute
+  ;;
+  "clean")
+    clean
   ;;
   *)
     echo "一致するコマンドがありません。使用できるコマンドは以下の通りです。"
