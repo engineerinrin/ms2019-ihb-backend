@@ -6,18 +6,18 @@ import { jwtSecretKey } from '../utils/config';
 
 // ユーザー名でユーザー検索
 export const findUserByName =
-  async (name: string): Promise<{ isSuccess: true, data: IUserModel[] } | { isSuccess: false, err: any }> => {
+  async (name: string): Promise<{ err: null, findUser: IUserModel } | { err: any, findUser: null }> => {
     try {
-      const data = await userModel.find({ name }).exec();
-      return { isSuccess: true, data };
+      const [findUser] = await userModel.find({ name }).exec();
+      return { err: null, findUser };
     } catch (err) {
-      return { isSuccess: false, err };
+      return { err, findUser: null };
     }
   };
 
 // アカウントを登録する(仮)
 export const signup =
-  async (name: string, password: string): Promise<{ isSuccess: true } | { isSuccess: false, err: any }> => {
+  async (name: string, password: string): Promise<{ err: null | any }> => {
     const user: IUserModel = new userModel();
     const now = moment().format('YYYY-MM-DD HH:mm:ss');
 
@@ -28,15 +28,15 @@ export const signup =
 
     try {
       await user.save();
-      return { isSuccess: true };
+      return { err: null };
     } catch (err) {
-      return { isSuccess: false, err };
+      return { err };
     }
   };
 
 // ログイン処理(仮)
 export const signin =
-  async (name: string, password: string): Promise<{ err: null, result: any } | { err: any, result: null }> => {
+  async (name: string, password: string): Promise<{ err: null | any, result: any | null }> => {
     try {
       const [findUser] = await userModel.find({ name }).exec();
 

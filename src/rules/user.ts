@@ -1,7 +1,7 @@
 import { check } from 'express-validator/check';
 import { findUserByName } from '../services/user';
 
-const userRoules = {
+const userRules = {
   // アカウント作成
   signup: [
     // ユーザー名
@@ -19,11 +19,11 @@ const userRoules = {
       .withMessage('ユーザー名は20文字以下で入力してください')
       // 重複するユーザー名が存在しないか
       .custom(async (name) => {
-        const result = await findUserByName(name);
-        if (result.isSuccess) {
-          return result.data.length === 0;
+        const { err, findUser } = await findUserByName(name);
+        if (err) {
+          console.log(err);
         } else {
-          console.log(result.err);
+          return findUser ? false : true;
         }
       })
       .withMessage('すでに登録されているユーザー名です'),
@@ -69,4 +69,4 @@ const userRoules = {
   ],
 };
 
-export default userRoules;
+export default userRules;
