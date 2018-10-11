@@ -14,12 +14,12 @@ router
       return res.status(400).json({ errs: errs.mapped() });
     }
 
-    const result = await signup(req.body.name, req.body.password);
+    const { err } = await signup(req.body.name, req.body.password);
 
-    if (result.isSuccess) {
-      res.status(201).send();
+    if (err) {
+      next(err);
     } else {
-      next(result.err);
+      res.status(201).send();
     }
   });
 
