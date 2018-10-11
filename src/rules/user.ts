@@ -1,7 +1,7 @@
 import { check } from 'express-validator/check';
 import { findUserByName } from '../services/user';
 
-const userRoules = {
+const userRules = {
   // アカウント作成
   signup: [
     // ユーザー名
@@ -69,4 +69,4 @@ const userRoules = {
   ],
 };
 
-export default userRoules;
+export default userRules;
