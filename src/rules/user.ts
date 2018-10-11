@@ -2,6 +2,7 @@ import { check } from 'express-validator/check';
 import { findUserByName } from '../services/user';
 
 const userRoules = {
+  // アカウント作成
   signup: [
     // ユーザー名
     check('name')
@@ -52,6 +53,19 @@ const userRoules = {
         return confirmPassword === req.body.password;
       })
       .withMessage('パスワードと確認用パスワードが一致しません'),
+  ],
+  // ログイン
+  signin: [
+    // ユーザー名
+    check('name')
+      // 未入力禁止
+      .not().isEmpty()
+      .withMessage('ユーザー名が未入力です'),
+    // パスワード
+    check('password')
+      // 未入力禁止
+      .not().isEmpty()
+      .withMessage('パスワードが未入力です'),
   ],
 };
 
