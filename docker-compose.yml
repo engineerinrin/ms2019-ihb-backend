@@ -6,6 +6,7 @@ services:
     container_name: "ms2019-db"
     volumes:
       - ./docker/db/volumes:/data/db
+      - ./docker/db/seeds:/seeds
     ports:
       - "37017:27017"
 
