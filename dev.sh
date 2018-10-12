@@ -18,6 +18,8 @@ function usage() {
       バックエンドの開発環境に入る。
       コンテナを起動している状態で利用できる。
       実行中にexitと入力すると開発環境から出る。
+    dbinit
+      データベースの構築やデータの挿入を行う。
     clean
       コンテナを全て破棄する。
   
@@ -56,6 +58,10 @@ function execute() {
   docker exec -it ms2019-web sh
 }
 
+function dbinit() {
+  docker exec -it ms2019-db mongoimport --db ms2019 --collection users --drop --jsonArray --file ./seeds/users.json
+}
+
 function clean() {
   stop
   docker-compose rm -f
@@ -78,6 +84,9 @@ case "${1}" in
   ;;
   "exec")
     execute
+  ;;
+  "dbinit")
+    dbinit
   ;;
   "clean")
     clean

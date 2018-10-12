@@ -1,0 +1,23 @@
+[
+  {
+    "is_delete": false,
+    "name": "shirarin",
+    "password": "$2a$10$fSJRCCT.ZrJc5bOBLvdynO59jrkHZBaFJdzfsMnW3v5SS.INiKUhO",
+    "created_at": "2018-10-12 12:21:46",
+    "updated_at": "2018-10-12 12:21:46"
+  },
+  {
+    "is_delete": false,
+    "name": "ohashi",
+    "password": "$2a$10$xSYT2BiwImpHVEsZU5vNHO2OUl3aMuOlGWe4oTTVH/GQBwzVDnyei",
+    "created_at": "2018-10-12 12:28:18",
+    "updated_at": "2018-10-12 12:28:18"
+  },
+  {
+    "is_delete": false,
+    "name": "shigenaga",
+    "password": "$2a$10$wQnZv3wN7GKSZD9T2UBJKe9xSjQkX3rqRKUsFYZyua3NOK7spFE9a",
+    "created_at": "2018-10-12 12:31:19",
+    "updated_at": "2018-10-12 12:31:19"
+  }
+]
