@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser';
-import express, { Application } from 'express';
 import cors from 'cors';
+import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import logger from 'morgan';
 import errorHandler from './middlewares/errorHandler';

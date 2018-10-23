@@ -34,13 +34,12 @@ export const signup =
     }
   };
 
-// ログイン処理(仮)
+// ログイン処理
 export const signin =
   async (name: string, password: string): Promise<{ err: null | any, result: any | null }> => {
     try {
       const [findUser] = await userModel.find({ name }).exec();
 
-      let result;
       if (findUser) {
         const isMatch = bcrypt.compareSync(password, findUser.password);
 
@@ -48,13 +47,23 @@ export const signin =
           const now = moment().format('YYYY-MM-DD HH:mm:ss');
           const accessToken = jwt.sign({ name, now }, jwtSecretKey, { expiresIn: '3 days' });
 
-          result = { isSuccess: true, accessToken };
+          return {
+            err: null,
+            result: {
+              isSuccess: true,
+              accessToken,
+            },
+          };
         }
-      } else {
-        result = { isSuccess: false, errMsgs: ['ユーザー名またはパスワードが違います'] };
       }
 
-      return { err: null, result };
+      return {
+        err: null,
+        result: {
+          isSuccess: false,
+          errMsgs: ['ユーザー名またはパスワードが違います'],
+        },
+      };
     } catch (err) {
       return { err, result: null };
     }
