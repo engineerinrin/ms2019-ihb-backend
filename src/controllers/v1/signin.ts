@@ -6,7 +6,7 @@ import { signin } from '../../services/user';
 const router: Router = Router();
 
 router
-  // ログイン(仮)
+  // ログイン
   .post('/', userRule.signin, async (req: Request, res: Response, next: NextFunction) => {
     const errs: Result = validationResult(req);
 
@@ -20,8 +20,8 @@ router
       return res.status(400).json({ errMsgs });
     }
 
-    const { name } = req.body;
-    const { err, result } = await signin(name, req.body.password);
+    const { name, password } = req.body;
+    const { err, result } = await signin(name, password);
 
     if (err) {
       next(err);
