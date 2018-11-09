@@ -9,7 +9,7 @@ import { dbUrl } from './utils/config';
 
 const app: Application = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(logger('dev'));
 app.use(cors());
 app.use('/api/v1', routes);
