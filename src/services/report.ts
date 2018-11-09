@@ -2,7 +2,6 @@ import { renameSync } from 'fs';
 import moment from 'moment';
 import path from 'path';
 import reportModel, { IReportModel } from '../models/report';
-import userModel, { IUserModel } from '../models/user';
 import { findUserByName } from './user';
 
 export const createReport = async (name: string, title: string, description: string, destination: string, filename: string) => {
