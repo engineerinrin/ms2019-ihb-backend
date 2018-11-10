@@ -3,7 +3,7 @@ import { Result, validationResult } from 'express-validator/check';
 import authCheck from '../../middlewares/authCheck';
 import { reportTmpUpload } from '../../middlewares/upload';
 import reportRule from '../../rules/report';
-import { createReport } from '../../services/report';
+import { createReport, imageAnalysis } from '../../services/report';
 
 const router: Router = Router();
 
@@ -26,6 +26,18 @@ router
     }
 
     res.status(201).send();
+  })
+  // 選択されたレポート画像を解析する
+  .post('/image-analysis', [reportTmpUpload, authCheck], async (req: Request, res: Response, next: NextFunction) => {
+    const { destination, filename } = req.file;
+
+    const { err, tags } = await imageAnalysis(destination, filename);
+
+    if (err) {
+      next(err);
+    }
+
+    res.status(200).json({ tags });
   });
 
 export default router;
