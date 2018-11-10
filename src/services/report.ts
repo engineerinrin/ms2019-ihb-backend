@@ -7,7 +7,7 @@ import { imageAnalysisRequest } from '../utils/client';
 import incident from '../utils/incident';
 import { findUserByName } from './user';
 
-export const createReport = async (name: string, title: string, description: string, destination: string, filename: string) => {
+export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[]) => {
   const tmpPath = path.join(destination, filename);
   const staticPath = path.join('static', 'reports', filename);
 
@@ -21,6 +21,7 @@ export const createReport = async (name: string, title: string, description: str
     report.title = /^[\s]*$/.test(title) ? 'なし' : title;
     report.description = /^[\s]*$/.test(description) ? 'なし' : description;
     report.path = filename;
+    report.tags = tags;
     report.author = findUser;
     report.created_at = now;
     report.updated_at = now;
