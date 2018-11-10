@@ -29,15 +29,15 @@ router
   })
   // 選択されたレポート画像を解析する
   .post('/image-analysis', [reportTmpUpload, authCheck], async (req: Request, res: Response, next: NextFunction) => {
-    const { destination, filename } = req.file;
+    const { destination, filename, mimetype } = req.file;
 
-    const { err, tags } = await imageAnalysis(destination, filename);
+    const { err, tags, preview } = await imageAnalysis(destination, filename, mimetype);
 
     if (err) {
       next(err);
     }
 
-    res.status(200).json({ tags });
+    res.status(200).json({ tags, preview });
   });
 
 export default router;

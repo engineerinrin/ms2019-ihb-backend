@@ -32,7 +32,7 @@ export const createReport = async (name: string, title: string, description: str
   }
 };
 
-export const imageAnalysis = async (destination: string, filename: string): Promise<{err: any, tags?: string[]}> => {
+export const imageAnalysis = async (destination: string, filename: string, mimetype: string): Promise<{ err: any, tags?: string[], preview?: string }> => {
   const tmpPath = path.join(destination, filename);
   const image = fs.readFileSync(tmpPath);
   const base64Image = new Buffer(image).toString('base64');
@@ -48,7 +48,9 @@ export const imageAnalysis = async (destination: string, filename: string): Prom
       }
     }
 
-    return { err: null, tags };
+    const preview = `data:${mimetype};base64,${base64Image}`;
+
+    return { err: null, tags, preview };
   } catch (err) {
     return { err };
   }
