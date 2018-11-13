@@ -4083,6 +4083,11 @@ tough-cookie@~2.4.3:
     psl "^1.1.24"
     punycode "^1.4.1"
 
+ts-exif-parser@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ts-exif-parser/-/ts-exif-parser-0.1.4.tgz#1c2cff1bb3a4d7fbc4c318bfc2463a946d752fbe"
+  integrity sha512-wLZowFj+25+WM5YQcdUN4YWO8FfIWMgRnDFCjDa94zUyqT3VyeISleCetDGOUWDOq1jho9XLfG8k/Lc9syMqlA==
+
 ts-loader@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-5.2.1.tgz#e6815c631dcafc24319ce8be6f8af94908749cf3"
