@@ -7,7 +7,7 @@ const report: Schema = new Schema({
   tags: { type: [String], required: true },
   location: {
     type: { type: String, default: 'Point' },
-    condinates: { type: [Number], default: [0, 0] },
+    coordinates: { type: [Number], default: [136.885731, 35.168136] },
   },
   author: { type: Schema.Types.ObjectId, ref: 'users' },
   is_delete: { type: Boolean, default: false },
@@ -26,7 +26,7 @@ interface IReportDocumnet {
   tags: string[];
   location: {
     type: string,
-    condinates: number[],
+    coordinates: number[],
   };
   author: any;
   created_at: string;
