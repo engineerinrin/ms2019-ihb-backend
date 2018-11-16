@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { JsonWebTokenError, verify } from 'jsonwebtoken';
+import { JsonWebTokenError, TokenExpiredError, verify } from 'jsonwebtoken';
 import { findUserByName } from '../services/user';
 import { jwtSecretKey } from '../utils/config';
 
@@ -21,7 +21,7 @@ const authCheck = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
   } catch (err) {
-    if (err.name === JsonWebTokenError.name) {
+    if (err.name === JsonWebTokenError.name || err.name === TokenExpiredError.name) {
       console.log(err);
       res.status(401).send();
     } else {
