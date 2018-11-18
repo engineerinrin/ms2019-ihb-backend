@@ -39,6 +39,44 @@ export const getAroundMeIncidents = async (lat: number, lng: number) => {
   }
 };
 
+export const getReportById = async (reportId: string) => {
+  try {
+    const data = await reportModel.findOne(
+      { _id: reportId },
+      {
+        title: 1,
+        description: 1,
+        path: 1,
+        tags: 1,
+        location: 1,
+        author: 1,
+        created_at: 1,
+      },
+    )
+      .populate('author', 'name')
+      .exec();
+
+    if (data) {
+      return {
+        report: {
+          title: data.title,
+          description: data.description,
+          imageUrl: data.path,
+          tags: data.tags,
+          lng: data.location.coordinates[0],
+          lat: data.location.coordinates[1],
+          author: data.author.name,
+          createdAt: data.created_at,
+        },
+      };
+    } else {
+      return { report: null };
+    }
+  } catch (err) {
+    return { err };
+  }
+};
+
 export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[]) => {
   const tmpPath = path.join(destination, filename);
   const staticPath = path.join('static', 'reports', filename);

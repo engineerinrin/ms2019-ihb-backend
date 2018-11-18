@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(logger('dev'));
 app.use(cors());
 app.use('/api/v1', routes);
+app.use('/static', express.static('static'));
 app.use(errorHandler);
 
 mongoose.connect(dbUrl, { useNewUrlParser: true });
