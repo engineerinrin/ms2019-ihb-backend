@@ -3,7 +3,7 @@ import { Result, validationResult } from 'express-validator/check';
 import authCheck from '../../middlewares/authCheck';
 import { reportTmpUpload } from '../../middlewares/upload';
 import reportRule from '../../rules/report';
-import { createReport, getAroundMeIncidents, imageAnalysis } from '../../services/report';
+import { createReport, getAroundMeIncidents, getReportById, imageAnalysis } from '../../services/report';
 
 const router: Router = Router();
 
@@ -19,6 +19,22 @@ router
 
     if (incidents.length > 0) {
       res.status(200).json({ incidents });
+    } else {
+      res.status(404).send();
+    }
+  })
+  // 単一のレポートのデータを取得
+  .get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    const reportId = req.params.id;
+
+    const { report, err } = await getReportById(reportId);
+
+    if (err) {
+      next(err);
+    }
+
+    if (report) {
+      res.status(200).json({ report });
     } else {
       res.status(404).send();
     }
