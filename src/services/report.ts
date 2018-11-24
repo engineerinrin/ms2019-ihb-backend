@@ -6,7 +6,7 @@ import { ExifParserFactory } from 'ts-exif-parser';
 import reportModel, { IReportModel } from '../models/report';
 import { imageAnalysisRequest } from '../utils/client';
 import incident from '../utils/incident';
-import { redisReportsGet, redisReportsSet, redisUsersGet, redisUsersSet } from '../utils/redis';
+import { redisReportsGet, redisReportsSet, redisUsersSet } from '../utils/redis';
 import { findUserByName } from './user';
 
 // 自分の周りのインシデントのデータを取得する
