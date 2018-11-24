@@ -11,13 +11,20 @@ services:
       - "37017:27017"
 
   mongo-express:
-      image: mongo-express:latest
-      container_name: "ms2019-db-gui"
-      links:
-        - "db:mongo"
-      ports:
-        - "8081:8081"
-      restart: always
+    image: mongo-express:latest
+    container_name: "ms2019-db-gui"
+    links:
+      - "db:mongo"
+    ports:
+      - "8081:8081"
+    restart: always
+
+  redis:
+    image: redis:latest
+    container_name: "ms2019-redis"
+    ports:
+      - "7379:6379"
+    command: redis-server
 
   web:
     build: "."
@@ -30,3 +37,4 @@ services:
       - "4000:4000"
     depends_on:
       - db
+      - redis
