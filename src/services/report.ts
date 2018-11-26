@@ -6,6 +6,7 @@ import { ExifParserFactory } from 'ts-exif-parser';
 import reportModel, { IReportModel } from '../models/report';
 import { imageAnalysisRequest } from '../utils/client';
 import incident from '../utils/incident';
+import { redisReportsGet, redisReportsSet, redisUsersDel, redisUsersSet } from '../utils/redis';
 import { findUserByName } from './user';
 
 // 自分の周りのインシデントのデータを取得する
@@ -75,6 +76,29 @@ export const getReportById = async (reportId: string) => {
   } catch (err) {
     return { err };
   }
+};
+
+export const getSupportingUsers = async (reportId: string) => {
+  return JSON.parse(await redisReportsGet(reportId));
+};
+
+export const startRemovalWork = async (reportId: string, name: string) => {
+  let supportingUsers = JSON.parse(await redisReportsGet(reportId));
+  supportingUsers = supportingUsers ? supportingUsers.concat(name) : [name];
+
+  await redisReportsSet(reportId, JSON.stringify(supportingUsers));
+  await redisUsersSet(name, JSON.stringify(reportId));
+
+  return supportingUsers;
+};
+
+export const stopRemovalWork = async (reportId: string, name: string) => {
+  let supportingUsers: string[] = JSON.parse(await redisReportsGet(reportId));
+  supportingUsers = supportingUsers.filter((supportingUser) => supportingUser !== name);
+  await redisReportsSet(reportId, JSON.stringify(supportingUsers));
+  await redisUsersDel(name);
+
+  return supportingUsers;
 };
 
 export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[]) => {

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { Result, validationResult } from 'express-validator/check';
 import userRule from '../../rules/user';
-import { signin } from '../../services/user';
+import { getMySupportedReport, signin } from '../../services/user';
 
 const router: Router = Router();
 
@@ -28,7 +28,8 @@ router
     } else {
       const { isSuccess, accessToken, errMsgs } = result;
       if (isSuccess) {
-        res.status(200).json({ name, accessToken });
+        const reportId = await getMySupportedReport(name);
+        res.status(200).json({ name, accessToken, reportId });
       } else {
         res.status(401).json({ errMsgs });
       }

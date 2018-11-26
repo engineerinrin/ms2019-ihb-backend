@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import moment from 'moment';
 import userModel, { IUserModel } from '../models/user';
 import { jwtSecretKey } from '../utils/config';
+import { redisUsersGet } from '../utils/redis';
 
 // ユーザー名でユーザー検索
 export const findUserByName =
@@ -68,3 +69,8 @@ export const signin =
       return { err, result: null };
     }
   };
+
+// 自分がサポートしているレポートのIDを取得する
+export const getMySupportedReport = async (name: string) => {
+  return redisUsersGet(name);
+};
