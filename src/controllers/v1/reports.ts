@@ -3,7 +3,7 @@ import { Result, validationResult } from 'express-validator/check';
 import authCheck from '../../middlewares/authCheck';
 import { reportTmpUpload } from '../../middlewares/upload';
 import reportRule from '../../rules/report';
-import { createReport, getAroundMeIncidents, getReportById, imageAnalysis } from '../../services/report';
+import { createReport, getAroundMeIncidents, getReportById, getSupportingUsers, imageAnalysis } from '../../services/report';
 
 const router: Router = Router();
 
@@ -34,7 +34,8 @@ router
     }
 
     if (report) {
-      res.status(200).json({ report });
+      const supportingUsers = await getSupportingUsers(reportId);
+      res.status(200).json({ report: { ...report, ...{ supportingUsers } } });
     } else {
       res.status(404).send();
     }

@@ -15,13 +15,17 @@ io.on('connection', (socket: SocketIO.Socket) => {
   console.log('user connection');
 
   socket.on('startRemovalWork', async (reportId: string, name: string) => {
-    await startRemovalWork(reportId, name);
+    const supportingUsers = await startRemovalWork(reportId, name);
+    socket.join(reportId);
     socket.emit('startRemovalWork:receive', reportId);
+    io.sockets.to(reportId).emit('syncSupportingUsers:receive', supportingUsers);
   });
 
   socket.on('stopRemovalWork', async (reportId: string, name: string) => {
-    await stopRemovalWork(reportId, name);
+    const supportingUsers = await stopRemovalWork(reportId, name);
     socket.emit('stopRemovalWork:receive');
+    io.sockets.to(reportId).emit('syncSupportingUsers:receive', supportingUsers);
+    socket.leave(reportId);
   });
 
   socket.on('disconnect', () => {

@@ -78,18 +78,27 @@ export const getReportById = async (reportId: string) => {
   }
 };
 
-export const startRemovalWork = async (reportId: string, name: string) => {
-  const supporters = JSON.parse(await redisReportsGet(reportId));
+export const getSupportingUsers = async (reportId: string) => {
+  return JSON.parse(await redisReportsGet(reportId));
+};
 
-  await redisReportsSet(reportId, JSON.stringify(supporters ? supporters.concat(name) : [name]));
-  await redisUsersSet(name, reportId);
+export const startRemovalWork = async (reportId: string, name: string) => {
+  let supportingUsers = JSON.parse(await redisReportsGet(reportId));
+  supportingUsers = supportingUsers ? supportingUsers.concat(name) : [name];
+
+  await redisReportsSet(reportId, JSON.stringify(supportingUsers));
+  await redisUsersSet(name, JSON.stringify(reportId));
+
+  return supportingUsers;
 };
 
 export const stopRemovalWork = async (reportId: string, name: string) => {
-  const supporters: string[] = JSON.parse(await redisReportsGet(reportId));
-
-  await redisReportsSet(reportId, JSON.stringify(supporters.filter((supporter) => supporter !== name)));
+  let supportingUsers: string[] = JSON.parse(await redisReportsGet(reportId));
+  supportingUsers = supportingUsers.filter((supportingUser) => supportingUser !== name);
+  await redisReportsSet(reportId, JSON.stringify(supportingUsers));
   await redisUsersDel(name);
+
+  return supportingUsers;
 };
 
 export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[]) => {
