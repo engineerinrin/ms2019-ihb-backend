@@ -3,11 +3,18 @@ import { Result, validationResult } from 'express-validator/check';
 import authCheck from '../../middlewares/authCheck';
 import { reportTmpUpload } from '../../middlewares/upload';
 import reportRule from '../../rules/report';
-import { createReport, getAroundMeIncidents, getReportById, getSupportingUsers, imageAnalysis } from '../../services/report';
+import { createReport, getAroundMeIncidents, getReportById, getReports, getSupportingUsers, imageAnalysis } from '../../services/report';
 
 const router: Router = Router();
 
 router
+  // レポート一覧を取得する
+  .get('/', async (req: Request, res: Response, next: NextFunction) => {
+    const { offset } = req.query;
+    const reports = await getReports(parseInt(offset, 10));
+
+    res.status(200).json({ reports });
+  })
   // インシデントマップに表示するデータを取得
   .get('/map', async (req: Request, res: Response, next: NextFunction) => {
     const { lat, lng } = req.query;

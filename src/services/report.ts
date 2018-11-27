@@ -155,3 +155,12 @@ export const imageAnalysis = async (destination: string, filename: string, mimet
     return { err };
   }
 };
+
+export const getReports = async (offset: number) => {
+  return (
+    reportModel
+      .find({}, { title: 1, path: 1, tags: 1, created_at: 1 })
+      .limit(10)
+      .skip(offset)
+  );
+};
