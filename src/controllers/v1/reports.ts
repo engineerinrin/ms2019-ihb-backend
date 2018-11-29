@@ -3,7 +3,7 @@ import { Result, validationResult } from 'express-validator/check';
 import authCheck from '../../middlewares/authCheck';
 import { reportTmpUpload } from '../../middlewares/upload';
 import reportRule from '../../rules/report';
-import { createReport, getAroundMeIncidents, getReportById, getReports, getSupportingUsers, imageAnalysis } from '../../services/report';
+import { createReport, getAroundMeIncidents, getReportById, getReports, getSupportingUsers, imageAnalysis, resolveIncident, stopRemovalWork } from '../../services/report';
 
 const router: Router = Router();
 
@@ -45,6 +45,24 @@ router
       res.status(200).json({ report: { ...report, ...{ supportingUsers } } });
     } else {
       res.status(404).send();
+    }
+  })
+  // レポートを解決状態に更新
+  .patch('/:id/resolve', authCheck, async (req: Request, res: Response, next: NextFunction) => {
+    const reportId = req.params.id;
+    const { name } = req.body;
+
+    const { err, isSuccess } = await resolveIncident(reportId);
+
+    if (err) {
+      next(err);
+    }
+
+    if (isSuccess) {
+      await stopRemovalWork(reportId, name);
+      res.status(204).send();
+    } else {
+      res.status(409).send();
     }
   })
   // レポートの投稿

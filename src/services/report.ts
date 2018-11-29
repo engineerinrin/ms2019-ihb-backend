@@ -166,3 +166,14 @@ export const getReports = async (offset: number) => {
       .skip(offset)
   );
 };
+
+// インシデントレポートを解決状態にする
+export const resolveIncident = async (reportId: string) => {
+  try {
+    const result = await reportModel.update({ _id: reportId }, { $set: { is_resolved: true } });
+    const isSuccess = result.nModified === 1 ? true : false;
+    return { err: null, isSuccess };
+  } catch (err) {
+    return { err };
+  }
+};
