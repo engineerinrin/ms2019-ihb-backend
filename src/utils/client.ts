@@ -32,3 +32,20 @@ export const imageAnalysisRequest = (base64Image: string) => {
     });
   });
 };
+
+export const geoCodingRequest = (lat: number, lng: number) => {
+  return new Promise((resolve, reject) => {
+    request.get({
+      url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${gcvApiKey}&language=ja`,
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(JSON.parse(body));
+      }
+    });
+  });
+};
