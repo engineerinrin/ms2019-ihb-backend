@@ -52,6 +52,7 @@ export const getReportById = async (reportId: string) => {
         location: 1,
         author: 1,
         created_at: 1,
+        is_resolved: 1,
       },
     )
       .populate('author', 'name')
@@ -68,6 +69,7 @@ export const getReportById = async (reportId: string) => {
           lat: data.location.coordinates[1],
           author: data.author.name,
           createdAt: data.created_at,
+          isResolved: data.is_resolved,
         },
       };
     } else {
@@ -163,4 +165,15 @@ export const getReports = async (offset: number) => {
       .limit(10)
       .skip(offset)
   );
+};
+
+// インシデントレポートを解決状態にする
+export const resolveIncident = async (reportId: string) => {
+  try {
+    const result = await reportModel.update({ _id: reportId }, { $set: { is_resolved: true } });
+    const isSuccess = result.nModified === 1 ? true : false;
+    return { err: null, isSuccess };
+  } catch (err) {
+    return { err };
+  }
 };

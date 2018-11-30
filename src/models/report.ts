@@ -10,7 +10,7 @@ const report: Schema = new Schema({
     coordinates: { type: [Number], default: [136.885731, 35.168136] },
   },
   author: { type: Schema.Types.ObjectId, ref: 'users' },
-  is_delete: { type: Boolean, default: false },
+  is_resolved: { type: Boolean, default: false },
   created_at: { type: String, required: true },
   updated_at: { type: String, required: true },
 }, {
@@ -31,7 +31,7 @@ interface IReportDocumnet {
   author: any;
   created_at: string;
   updated_at: string;
-  is_delete: boolean;
+  is_resolved: boolean;
 }
 
 export interface IReportModel extends IReportDocumnet, Document { }

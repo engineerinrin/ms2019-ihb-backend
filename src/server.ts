@@ -28,6 +28,15 @@ io.on('connection', (socket: SocketIO.Socket) => {
     socket.leave(reportId);
   });
 
+  socket.on('resolvedIncident', async (reportId: string) => {
+    socket.broadcast.to(reportId).emit('resolvedIncident:receive');
+    io.in(reportId).clients((err: any, socketIds: any) => {
+      for (const i in socketIds) {
+        socket.leave(socketIds[i]);
+      }
+    });
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
     socket.disconnect();
