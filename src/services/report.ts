@@ -4,7 +4,7 @@ import moment from 'moment';
 import path from 'path';
 import { ExifParserFactory } from 'ts-exif-parser';
 import reportModel, { IReportModel } from '../models/report';
-import { imageAnalysisRequest } from '../utils/client';
+import { geoCodingRequest, imageAnalysisRequest } from '../utils/client';
 import incident from '../utils/incident';
 import { redisReportsGet, redisReportsSet, redisUsersDel, redisUsersSet } from '../utils/redis';
 import { findUserByName } from './user';
@@ -151,6 +151,23 @@ export const imageAnalysis = async (destination: string, filename: string, mimet
     }
 
     const preview = `data:${mimetype};base64,${base64Image}`;
+
+    const { GPSLongitude, GPSLatitude }: any = ExifParserFactory.create(image).parse().tags;
+    const geoData: any = await geoCodingRequest(GPSLatitude, GPSLongitude);
+
+    console.log(`
+    >============================解析結果出力開始=============================>
+
+      - 検出されたインシデント
+        ${tags.length > 0 ? tags : 'なし'}
+
+      - 検出された位置情報
+        - 場所: ${geoData.results[8].formatted_address}
+        - 緯度: ${GPSLatitude}
+        - 経度: ${GPSLongitude}
+
+    >============================解析結果出力終了=============================>
+    `);
 
     return { err: null, tags, preview };
   } catch (err) {
