@@ -59,7 +59,10 @@ router
     }
 
     if (isSuccess) {
-      await stopRemovalWork(reportId, name);
+      const supportingUsers = await stopRemovalWork(reportId, name);
+      for (let i in supportingUsers) {
+        await stopRemovalWork(reportId, supportingUsers[i]);
+      }
       res.status(204).send();
     } else {
       res.status(409).send();
