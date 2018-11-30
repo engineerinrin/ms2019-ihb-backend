@@ -89,7 +89,7 @@ export const startRemovalWork = async (reportId: string, name: string) => {
   supportingUsers = supportingUsers ? supportingUsers.concat(name) : [name];
 
   await redisReportsSet(reportId, JSON.stringify(supportingUsers));
-  await redisUsersSet(name, JSON.stringify(reportId));
+  await redisUsersSet(name, reportId);
 
   return supportingUsers;
 };
