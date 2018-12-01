@@ -22,6 +22,7 @@ export const getAroundMeIncidents = async (lat: number, lng: number) => {
           },
         },
       },
+      is_resolved: false,
     }, { _id: 1, location: 1 })
       .exec();
 
@@ -153,7 +154,7 @@ export const imageAnalysis = async (destination: string, filename: string, mimet
     const preview = `data:${mimetype};base64,${base64Image}`;
 
     const { GPSLongitude, GPSLatitude }: any = ExifParserFactory.create(image).parse().tags;
-    const geoData: any = await geoCodingRequest(GPSLatitude, GPSLongitude);
+    const geoData: any = GPSLatitude && GPSLongitude ? await geoCodingRequest(GPSLatitude, GPSLongitude) : null;
 
     console.log(`
     >============================解析結果出力開始=============================>
@@ -162,7 +163,7 @@ export const imageAnalysis = async (destination: string, filename: string, mimet
         ${tags.length > 0 ? tags : 'なし'}
 
       - 検出された位置情報
-        - 場所: ${geoData.results[8].formatted_address}
+        - 場所: ${geoData ? geoData.results[8].formatted_address : '不定'}
         - 緯度: ${GPSLatitude}
         - 経度: ${GPSLongitude}
 
@@ -178,7 +179,15 @@ export const imageAnalysis = async (destination: string, filename: string, mimet
 export const getReports = async (offset: number) => {
   return (
     reportModel
-      .find({}, { title: 1, path: 1, tags: 1, created_at: 1 })
+      .find(
+        { is_resolved: false },
+        {
+          title: 1,
+          path: 1,
+          tags: 1,
+          created_at: 1,
+        }
+      )
       .limit(10)
       .skip(offset)
   );
