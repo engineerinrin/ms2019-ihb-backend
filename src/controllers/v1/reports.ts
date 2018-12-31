@@ -4,7 +4,7 @@ import authCheck from '../../middlewares/authCheck';
 import { reportTmpUpload } from '../../middlewares/upload';
 import reportRule from '../../rules/report';
 import { createReport, getAroundMeIncidents, getReportById, getReports, getSupportingUsers, imageAnalysis, resolveIncident, stopRemovalWork } from '../../services/report';
-import { createComment } from '../../services/reportComment';
+import { createComment, getCommentsByReportId } from '../../services/reportComment';
 
 const router: Router = Router();
 
@@ -47,6 +47,17 @@ router
     } else {
       res.status(404).send();
     }
+  })
+  // 単一レポートのコメント一覧を取得する
+  .get('/:id/comments', async (req: Request, res: Response, next: NextFunction) => {
+    const reportId = req.params.id;
+
+    const { comments, err } = await getCommentsByReportId(reportId);
+    if (err) {
+      next(err);
+    }
+
+    res.status(200).json({ comments });
   })
   // レポートを解決状態に更新
   .patch('/:id/resolve', authCheck, async (req: Request, res: Response, next: NextFunction) => {
