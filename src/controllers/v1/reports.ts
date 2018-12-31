@@ -4,6 +4,7 @@ import authCheck from '../../middlewares/authCheck';
 import { reportTmpUpload } from '../../middlewares/upload';
 import reportRule from '../../rules/report';
 import { createReport, getAroundMeIncidents, getReportById, getReports, getSupportingUsers, imageAnalysis, resolveIncident, stopRemovalWork } from '../../services/report';
+import { createComment, getCommentsByReportId } from '../../services/reportComment';
 
 const router: Router = Router();
 
@@ -46,6 +47,17 @@ router
     } else {
       res.status(404).send();
     }
+  })
+  // 単一レポートのコメント一覧を取得する
+  .get('/:id/comments', async (req: Request, res: Response, next: NextFunction) => {
+    const reportId = req.params.id;
+
+    const { comments, err } = await getCommentsByReportId(reportId);
+    if (err) {
+      next(err);
+    }
+
+    res.status(200).json({ comments });
   })
   // レポートを解決状態に更新
   .patch('/:id/resolve', authCheck, async (req: Request, res: Response, next: NextFunction) => {
@@ -98,6 +110,24 @@ router
     }
 
     res.status(200).json({ tags, preview });
+  })
+  // レポートに対してコメントする
+  .post('/:id/comment', authCheck, reportRule.postComment, async (req: Request, res: Response, next: NextFunction) => {
+    const errs: Result = validationResult(req);
+
+    if (!errs.isEmpty()) {
+      return res.status(400).json({ errs: errs.array() });
+    }
+
+    const reportId = req.params.id;
+    const { name, text } = req.body;
+
+    const { err } = await createComment(name, reportId, text);
+    if (err) {
+      next(err);
+    }
+
+    res.status(201).send();
   });
 
 export default router;
