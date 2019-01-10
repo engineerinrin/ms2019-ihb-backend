@@ -5,6 +5,7 @@ const report: Schema = new Schema({
   description: { type: String },
   path: { type: String, required: true },
   tags: { type: [String], required: true },
+  prefId: { type: String, required: true },
   location: {
     type: { type: String, default: 'Point' },
     coordinates: { type: [Number], default: [136.885731, 35.168136] },
@@ -24,6 +25,7 @@ interface IReportDocumnet {
   description: string;
   path: string;
   tags: string[];
+  prefId: string;
   location: {
     type: string,
     coordinates: number[],

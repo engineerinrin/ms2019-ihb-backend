@@ -88,10 +88,10 @@ router
       return res.status(400).json({ errs: errs.mapped() });
     }
 
-    const { name, title, description, tags } = req.body;
+    const { name, title, description, tags, prefId } = req.body;
     const { destination, filename } = req.file;
 
-    const { err } = await createReport(name, title, description, destination, filename, tags);
+    const { err } = await createReport(name, title, description, destination, filename, tags, prefId);
 
     if (err) {
       next(err);

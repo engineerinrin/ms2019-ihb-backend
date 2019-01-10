@@ -105,7 +105,7 @@ export const stopRemovalWork = async (reportId: string, name: string) => {
   return supportingUsers;
 };
 
-export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[]) => {
+export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[], prefId: string) => {
   const tmpPath = path.join(destination, filename);
   const staticPath = path.join('static', 'reports', filename);
   const image = fs.readFileSync(tmpPath);
@@ -122,6 +122,7 @@ export const createReport = async (name: string, title: string, description: str
     report.description = /^[\s]*$/.test(description) ? 'なし' : description;
     report.path = filename;
     report.tags = tags;
+    report.prefId = prefId;
     if (GPSLongitude && GPSLatitude) {
       report.location.coordinates = [GPSLongitude, GPSLatitude];
     }
