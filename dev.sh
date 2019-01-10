@@ -59,7 +59,11 @@ function execute() {
 }
 
 function dbinit() {
-  docker exec -it ms2019-db mongoimport --db ms2019 --collection users --drop --jsonArray --file ./seeds/users.json
+  seeds=(users reports report_comments prefs)
+  for i in ${seeds[@]}
+  do
+    docker exec -it ms2019-db mongoimport --db ms2019 --collection $i --drop --jsonArray --file ./seeds/$i.json
+  done
 }
 
 function clean() {
