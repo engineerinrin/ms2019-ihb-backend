@@ -103,13 +103,13 @@ router
   .post('/image-analysis', [reportTmpUpload, authCheck], async (req: Request, res: Response, next: NextFunction) => {
     const { destination, filename, mimetype } = req.file;
 
-    const { err, tags, preview } = await imageAnalysis(destination, filename, mimetype);
+    const { err, tags, preview, pref } = await imageAnalysis(destination, filename, mimetype);
 
     if (err) {
       next(err);
     }
 
-    res.status(200).json({ tags, preview });
+    res.status(200).json({ tags, preview, pref });
   })
   // レポートに対してコメントする
   .post('/:id/comment', authCheck, reportRule.postComment, async (req: Request, res: Response, next: NextFunction) => {
