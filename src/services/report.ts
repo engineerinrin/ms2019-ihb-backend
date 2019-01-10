@@ -7,6 +7,7 @@ import reportModel, { IReportModel } from '../models/report';
 import { geoCodingRequest, imageAnalysisRequest } from '../utils/client';
 import incident from '../utils/incident';
 import { redisReportsGet, redisReportsSet, redisUsersDel, redisUsersSet } from '../utils/redis';
+import { getPrefByName } from './pref';
 import { findUserByName } from './user';
 
 // 自分の周りのインシデントのデータを取得する
@@ -104,7 +105,7 @@ export const stopRemovalWork = async (reportId: string, name: string) => {
   return supportingUsers;
 };
 
-export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[]) => {
+export const createReport = async (name: string, title: string, description: string, destination: string, filename: string, tags: string[], prefId: string) => {
   const tmpPath = path.join(destination, filename);
   const staticPath = path.join('static', 'reports', filename);
   const image = fs.readFileSync(tmpPath);
@@ -121,6 +122,7 @@ export const createReport = async (name: string, title: string, description: str
     report.description = /^[\s]*$/.test(description) ? 'なし' : description;
     report.path = filename;
     report.tags = tags;
+    report.prefId = prefId;
     if (GPSLongitude && GPSLatitude) {
       report.location.coordinates = [GPSLongitude, GPSLatitude];
     }
@@ -135,7 +137,7 @@ export const createReport = async (name: string, title: string, description: str
   }
 };
 
-export const imageAnalysis = async (destination: string, filename: string, mimetype: string): Promise<{ err: any, tags?: string[], preview?: string }> => {
+export const imageAnalysis = async (destination: string, filename: string, mimetype: string) => {
   const tmpPath = path.join(destination, filename);
   const image = fs.readFileSync(tmpPath);
   const base64Image = new Buffer(image).toString('base64');
@@ -170,7 +172,22 @@ export const imageAnalysis = async (destination: string, filename: string, mimet
     >============================解析結果出力終了=============================>
     `);
 
-    return { err: null, tags, preview };
+    const prefName =
+      geoData ?
+        geoData.results[0].address_components.filter((component: any) => {
+          return component.types.indexOf('administrative_area_level_1') > -1;
+        })
+        [0].long_name
+        :
+        null;
+
+    const { err, pref } = await getPrefByName(prefName);
+
+    if (err) {
+      throw err;
+    }
+
+    return { err: null, tags, preview, pref };
   } catch (err) {
     return { err };
   }

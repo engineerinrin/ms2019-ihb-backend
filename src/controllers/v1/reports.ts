@@ -88,10 +88,10 @@ router
       return res.status(400).json({ errs: errs.mapped() });
     }
 
-    const { name, title, description, tags } = req.body;
+    const { name, title, description, tags, prefId } = req.body;
     const { destination, filename } = req.file;
 
-    const { err } = await createReport(name, title, description, destination, filename, tags);
+    const { err } = await createReport(name, title, description, destination, filename, tags, prefId);
 
     if (err) {
       next(err);
@@ -103,13 +103,13 @@ router
   .post('/image-analysis', [reportTmpUpload, authCheck], async (req: Request, res: Response, next: NextFunction) => {
     const { destination, filename, mimetype } = req.file;
 
-    const { err, tags, preview } = await imageAnalysis(destination, filename, mimetype);
+    const { err, tags, preview, pref } = await imageAnalysis(destination, filename, mimetype);
 
     if (err) {
       next(err);
     }
 
-    res.status(200).json({ tags, preview });
+    res.status(200).json({ tags, preview, pref });
   })
   // レポートに対してコメントする
   .post('/:id/comment', authCheck, reportRule.postComment, async (req: Request, res: Response, next: NextFunction) => {
