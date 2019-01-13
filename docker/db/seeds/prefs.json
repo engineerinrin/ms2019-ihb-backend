@@ -1,143 +1,190 @@
 [
   {
+    "roman": "hokkaido",
     "name": "北海道"
   },
   {
+    "roman": "aomori",
     "name": "青森県"
   },
   {
+    "roman": "iwate",
     "name": "岩手県"
   },
   {
+    "roman": "miyagi",
     "name": "宮城県"
   },
   {
+    "roman": "akita",
     "name": "秋田県"
   },
   {
+    "roman": "yamagata",
     "name": "山形県"
   },
   {
+    "roman": "fukushima",
     "name": "福島県"
   },
   {
+    "roman": "ibaraki",
     "name": "茨城県"
   },
   {
+    "roman": "tochigi",
     "name": "栃木県"
   },
   {
+    "roman": "gunma",
     "name": "群馬県"
   },
   {
+    "roman": "saitama",
     "name": "埼玉県"
   },
   {
+    "roman": "chiba",
     "name": "千葉県"
   },
   {
+    "roman": "tokyo",
     "name": "東京都"
   },
   {
+    "roman": "kanagawa",
     "name": "神奈川県"
   },
   {
+    "roman": "niigata",
     "name": "新潟県"
   },
   {
+    "roman": "toyama",
     "name": "富山県"
   },
   {
+    "roman": "ishikawa",
     "name": "石川県"
   },
   {
+    "roman": "fukui",
     "name": "福井県"
   },
   {
+    "roman": "yamanashi",
     "name": "山梨県"
   },
   {
+    "roman": "nagano",
     "name": "長野県"
   },
   {
+    "roman": "gifu",
     "name": "岐阜県"
   },
   {
+    "roman": "shizuoka",
     "name": "静岡県"
   },
   {
+    "roman": "aichi",
     "name": "愛知県"
   },
   {
+    "roman": "mie",
     "name": "三重県"
   },
   {
+    "roman": "shiga",
     "name": "滋賀県"
   },
   {
+    "roman": "kyoto",
     "name": "京都府"
   },
   {
+    "roman": "osaka",
     "name": "大阪府"
   },
   {
+    "roman": "hyogo",
     "name": "兵庫県"
   },
   {
+    "roman": "nara",
     "name": "奈良県"
   },
   {
+    "roman": "wakayama",
     "name": "和歌山県"
   },
   {
+    "roman": "tottori",
     "name": "鳥取県"
   },
   {
+    "roman": "shimane",
     "name": "島根県"
   },
   {
+    "roman": "okayama",
     "name": "岡山県"
   },
   {
+    "roman": "hiroshima",
     "name": "広島県"
   },
   {
+    "roman": "yamaguchi",
     "name": "山口県"
   },
   {
+    "roman": "tokushima",
     "name": "徳島県"
   },
   {
+    "roman": "kagawa",
     "name": "香川県"
   },
   {
+    "roman": "ehime",
     "name": "愛媛県"
   },
   {
+    "roman": "kochi",
     "name": "高知県"
   },
   {
+    "roman": "fukuoka",
     "name": "福岡県"
   },
   {
+    "roman": "saga",
     "name": "佐賀県"
   },
   {
+    "roman": "nagasaki",
     "name": "長崎県"
   },
   {
+    "roman": "kumamoto",
     "name": "熊本県"
   },
   {
+    "roman": "oita",
     "name": "大分県"
   },
   {
+    "roman": "miyazaki",
     "name": "宮崎県"
   },
   {
+    "roman": "kagoshima",
     "name": "鹿児島県"
   },
   {
+    "roman": "okinawa",
     "name": "沖縄県"
   }
 ]

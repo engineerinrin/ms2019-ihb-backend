@@ -62,7 +62,7 @@ function dbinit() {
   seeds=(users reports report_comments prefs)
   for i in ${seeds[@]}
   do
-    docker exec -it ms2019-db mongoimport --db ms2019 --collection $i --drop --jsonArray --file ./seeds/$i.json
+    docker exec -it ms2019-db mongoimport --db ms2019 --collection $i --drop --jsonArray --maintainInsertionOrder --file ./seeds/$i.json
   done
 }
 
